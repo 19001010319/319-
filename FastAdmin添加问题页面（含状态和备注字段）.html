@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加问题 - 话术管理系统 - FastAdmin</title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/selectpage/2.0/selectpage.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+            font-size: 13px;
+            background-color: #f4f6f9;
+        }
+        .navbar-inverse {
+            background-color: #2c3e50;
+            border-color: #1a242f;
+        }
+        .navbar-inverse .navbar-brand,
+        .navbar-inverse .navbar-nav>li>a {
+            color: #fff;
+        }
+        .sidebar {
+            position: fixed;
+            top: 51px;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: block;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #222d32;
+            width: 220px;
+        }
+        .nav-sidebar {
+            margin-right: -21px;
+            margin-bottom: 20px;
+            margin-left: -20px;
+        }
+        .nav-sidebar > li > a {
+            padding: 12px 20px;
+            color: #b8c7ce;
+        }
+        .nav-sidebar > li > a > i {
+            margin-right: 10px;
+        }
+        .nav-sidebar > .active > a,
+        .nav-sidebar > .active > a:hover,
+        .nav-sidebar > .active > a:focus {
+            color: #fff;
+            background-color: #1e282c;
+        }
+        .main {
+            padding: 20px;
+            margin-left: 220px;
+        }
+        .btn-success {
+            background-color: #18bc9c;
+            border-color: #16a98a;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+            border-color: #e43725;
+        }
+        .speech-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            padding: 15px;
+            position: relative;
+        }
+        .remove-speech {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: #e74c3c;
+        }
+        .form-control {
+            border-radius: 0;
+            box-shadow: none;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: none;
+        }
+        .help-block {
+            color: #999;
+        }
+        .radio {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+        .radio label {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">切换导航</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">FastAdmin</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user"></i> 管理员 <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user-circle-o"></i> 个人资料</a></li>
+                            <li><a href="#"><i class="fa fa-lock"></i> 修改密码</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#"><i class="fa fa-sign-out"></i> 退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 左侧菜单 -->
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+                    <li class="active"><a href="#"><i class="fa fa-comments"></i> 话术管理</a></li>
+                    <li><a href="#"><i class="fa fa-list"></i> 分类管理</a></li>
+                    <li><a href="#"><i class="fa fa-bar-chart"></i> 统计分析</a></li>
+                </ul>
+                <ul class="nav nav-sidebar">
+                    <li><a href="#"><i class="fa fa-user"></i> 用户管理</a></li>
+                    <li><a href="#"><i class="fa fa-shield"></i> 权限管理</a></li>
+                    <li><a href="#"><i class="fa fa-cog"></i> 系统设置</a></li>
+                </ul>
+            </div>
+            
+            <!-- 主内容区 -->
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <!-- 面包屑导航 -->
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+                    <li><a href="#">话术管理</a></li>
+                    <li class="active">添加问题</li>
+                </ol>
+                
+                <!-- 内容面板 -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">添加问题</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+                            <div class="form-group">
+                                <label for="c-question" class="control-label col-xs-12 col-sm-2">问题描述:</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input id="c-question" class="form-control" name="row[question]" type="text" value="" data-rule="required">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="c-category_id" class="control-label col-xs-12 col-sm-2">问题分类:</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <select id="c-category_id" class="form-control selectpicker" name="row[category_id]" data-rule="required">
+                                        <option value="">请选择分类</option>
+                                        <option value="1">理赔</option>
+                                        <option value="2">投保</option>
+                                        <option value="3">保全</option>
+                                        <option value="4">退保</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="c-remarks" class="control-label col-xs-12 col-sm-2">备注:</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <textarea id="c-remarks" class="form-control" name="row[remarks]" rows="3"></textarea>
+                                    <span class="help-block">可以添加问题适用场景、注意事项等备注信息</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="c-weigh" class="control-label col-xs-12 col-sm-2">权重:</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input id="c-weigh" class="form-control" name="row[weigh]" type="number" value="0">
+                                    <span class="help-block">权重值越大，排序越靠前</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-xs-12 col-sm-2">状态:</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <div class="radio">
+                                        <label><input name="row[status]" type="radio" value="normal" checked> 正常</label>
+                                        <label><input name="row[status]" type="radio" value="hidden"> 隐藏</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-xs-12 col-sm-2">话术内容:</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <button type="button" id="add-speech-field" class="btn btn-success btn-sm">
+                                        <i class="fa fa-plus"></i> 添加话术
+                                    </button>
+                                    <span class="help-block">可以添加多条话术，至少添加一条</span>
+                                </div>
+                            </div>
+                            
+                            <div id="speech-container">
+                                <div class="form-group speech-item">
+                                    <label class="control-label col-xs-12 col-sm-2">话术1:</label>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <textarea name="speeches[]" class="form-control" rows="3" data-rule="required"></textarea>
+                                    </div>
+                                    <i class="fa fa-times remove-speech" style="display: none;"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group layer-footer">
+                                <label class="control-label col-xs-12 col-sm-2"></label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <button type="submit" class="btn btn-success btn-embossed">提交</button>
+                                    <button type="reset" class="btn btn-default btn-embossed">重置</button>
+                                    <button type="button" class="btn btn-default btn-embossed" onclick="history.back()">返回</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS脚本 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/nice-validator/1.1.4/jquery.validator.min.js"></script>
+    <script src="https://cdn.staticfile.org/nice-validator/1.1.4/local/zh-CN.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.staticfile.org/selectpage/2.0/selectpage.min.js"></script>
+    <script src="https://cdn.staticfile.org/layer/2.3/layer.js"></script>
+    <script>
+        $(function() {
+            // 验证表单
+            $('#add-form').validator({
+                validClass: 'has-success',
+                invalidClass: 'has-error',
+                bindClassTo: '.form-group',
+                timely: 2,
+                autoSubmit: true,
+                msgClass: "n-right",
+                dataFilter: function(data) {
+                    if (data.code === 1) {
+                        return data.msg;
+                    } else {
+                        return data.msg;
+                    }
+                },
+                success: function(ret) {
+                    // 成功提交后的回调
+                    layer.msg('添加成功', {icon: 1}, function() {
+                        // 跳转回列表页
+                        location.href = 'index.html';
+                    });
+                    return false;
+                },
+                error: function(ret) {
+                    layer.msg(ret.msg, {icon: 2});
+                    return false;
+                }
+            });
+            
+            // 动态添加话术输入框
+            $("#add-speech-field").on('click', function() {
+                var index = $("#speech-container .speech-item").length;
+                var html = '<div class="form-group speech-item">' + 
+                    '<label class="control-label col-xs-12 col-sm-2">话术' + (index + 1) + ':</label>' + 
+                    '<div class="col-xs-12 col-sm-8">' + 
+                    '<textarea name="speeches[]" class="form-control" rows="3"></textarea>' + 
+                    '</div>' + 
+                    '<i class="fa fa-times remove-speech"></i>' + 
+                    '</div>';
+                $("#speech-container").append(html);
+                
+                // 如果有多个话术项，显示删除按钮
+                if ($("#speech-container .speech-item").length > 1) {
+                    $(".remove-speech").show();
+                }
+            });
+            
+            // 移除话术输入框
+            $(document).on('click', '.remove-speech', function() {
+                $(this).closest('.speech-item').remove();
+                
+                // 重新编号
+                $("#speech-container .speech-item").each(function(i) {
+                    $(this).find('label').text('话术' + (i + 1) + ':');
+                });
+                
+                // 如果只剩一个话术项，隐藏删除按钮
+                if ($("#speech-container .speech-item").length <= 1) {
+                    $(".remove-speech").hide();
+                }
+            });
+        });
+    </script>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
